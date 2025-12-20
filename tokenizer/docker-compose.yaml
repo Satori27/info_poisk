@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: crawler
+    ports:
+      - "5432:5432"
+
+  cpp_app:
+    build: .
+    environment:
+      STORAGE_DSN: "postgres://postgres:postgres@db:5432/crawler?sslmode=disable"
+    depends_on:
+      - db
+    restart: unless-stopped

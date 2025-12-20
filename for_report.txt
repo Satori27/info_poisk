@@ -1,0 +1,77 @@
+СТАТИСТИКА КОРПУСА
+------------------
+Количество уникальных токенов: 64567
+Средняя длина токена: 8.59
+
+ЗАКОН ЦИПФА
+-----------
+C = 2.5268e+04
+s = 0.7916
+
+/home/satori/GO/tokenizer/scripts/./script.py:42: RuntimeWarning: invalid value encountered in power
+  return C / ((r + b) ** s)
+ЗАКОН МАНДЕЛЬБРОТА
+------------------
+C = 2.7497e+04
+b = 0.1370
+s = 0.8125
+
+g++ -O2 -std=c++17 tokenize_bench.cpp -o tкokenize_bench
+./tokenize_bench
+Генерация текста размером 1024 КБ...
+Начало токенизации...
+Количество токенов: 149798
+Средняя длина токена: 6.99993
+Время токенизации: 0.039957 сек
+Скорость токенизации: 25627.5 КБ/с
+
+
+
+// стемминг
+satori@satori:~/GO$ python3 ./tokenizer/scripts/check_stemming.py
+Запрос: 'технологичный костюм'
+  Precision@5: 0.33, Recall@5: 1.00, F1@5: 0.50
+
+Запрос: 'жидкая броня'
+  Precision@5: 0.00, Recall@5: 0.00, F1@5: 0.00
+
+Запрос: 'Бэтмобиль синхронизация'
+  Precision@5: 0.50, Recall@5: 1.00, F1@5: 0.67
+
+Запрос: 'костюм экстремально низкие температуры'
+  Precision@5: 0.25, Recall@5: 1.00, F1@5: 0.40
+
+Запрос: 'бэтаранги'
+  Precision@5: 0.50, Recall@5: 1.00, F1@5: 0.67
+
+Средние показатели:
+  Precision@5: 0.32
+  Recall@5: 0.80
+  F1@5: 0.45
+
+// без стемминга
+satori@satori:~/GO$ python3 ./tokenizer/scripts/check_stemming.py
+Запрос: 'технологичный костюм'
+  Precision@5: 0.50, Recall@5: 1.00, F1@5: 0.67
+
+Запрос: 'жидкая броня'
+  Precision@5: 0.00, Recall@5: 0.00, F1@5: 0.00
+
+Запрос: 'Бэтмобиль синхронизация'
+  Precision@5: 1.00, Recall@5: 1.00, F1@5: 1.00
+
+Запрос: 'костюм экстремально низкие температуры'
+  Precision@5: 0.50, Recall@5: 1.00, F1@5: 0.67
+
+Запрос: 'бэтаранги'
+  Precision@5: 1.00, Recall@5: 1.00, F1@5: 1.00
+
+Средние показатели:
+  Precision@5: 0.60
+  Recall@5: 0.80
+  F1@5: 0.67
+satori@satori:~/GO$ 
+
+
+
+curl "http://localhost:8081/search?q=batman%20OR%20joker&mode=bool"
